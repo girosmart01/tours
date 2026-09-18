@@ -22,18 +22,6 @@ const tabButtons = document.querySelectorAll('.tab-btn');
 const MANAGER_USERNAME = 'igiro01';
 
 // ---------------------------------------------------------------
-// Иконки для обложек карточек туров
-// ---------------------------------------------------------------
-
-const ICONS = {
-  fortress: '<svg viewBox="0 0 24 24" width="32" height="32"><path fill="currentColor" d="M4 21V9l3-2V4h2v2l3-2v3l3-2v2l3 2v12H4Zm2-2h2v-4H6v4Zm4 0h2v-6h-2v6Zm4 0h2v-4h-2v4Zm4 0h2v-6h-2v6Z"/></svg>',
-  paw: '<svg viewBox="0 0 24 24" width="32" height="32"><path fill="currentColor" d="M6 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4Zm12 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4ZM9 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4Zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4Zm-3 6c-3 0-6 2.2-6 5.2 0 1.6 1.3 2.8 3 2.8.9 0 1.5-.3 2-.6.5-.3 1-.6 1-.6s.5.3 1 .6c.5.3 1.1.6 2 .6 1.7 0 3-1.2 3-2.8C18 14.2 15 12 12 12Z"/></svg>',
-  train: '<svg viewBox="0 0 24 24" width="32" height="32"><path fill="currentColor" d="M12 2C7 2 5 3 5 9v6a4 4 0 0 0 4 4l-2 2v1h10v-1l-2-2a4 4 0 0 0 4-4V9c0-6-2-7-7-7ZM7 9h4v4H7V9Zm6 0h4v4h-4V9ZM8.5 17a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5Zm7 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5Z"/></svg>',
-  whale: '<svg viewBox="0 0 24 24" width="32" height="32"><path fill="currentColor" d="M3 13c2-4 6-6 11-6 4 0 7 2 7 5 0 2-1.5 3.5-4 4l3 3-4-1c-2 1.5-4.5 2-7 1.5L6 21l1-3c-2-.7-3.3-2.3-4-5Zm14-6.5c.6 0 1-.5 1-1s-.4-1-1-1-1 .5-1 1 .4 1 1 1Z"/></svg>',
-  elephant: '<svg viewBox="0 0 24 24" width="32" height="32"><path fill="currentColor" d="M13 3c4 0 7 3 7 6.5 0 2-.9 3.5-1.5 4.3.4.4.5 1 .5 1.7v3a1.5 1.5 0 0 1-3 0v-2h-1v2a1.5 1.5 0 0 1-3 0v-2H8.6c-.3 1-.6 1.6-1.1 2a1.5 1.5 0 0 1-2.4-1.8c.3-.4.5-.8.6-1.4C4.6 14.6 4 13 4 11c0-1 .3-1.8.8-2.4C4.3 8 4 7.2 4 6.3 4 4.5 5.8 3 8 3c.9 0 1.7.3 2.3.7C11.2 3.2 12 3 13 3Z"/></svg>',
-};
-
-// ---------------------------------------------------------------
 // Данные туров
 // ---------------------------------------------------------------
 
@@ -41,6 +29,7 @@ const TOURS = [
   {
     id: 'treasure',
     icon: 'fortress',
+    image: 'images/treasure.jpg',
     title: 'Сокровище Цейлона',
     subtitle: '2 дня среди гор, поездов и древних крепостей',
     duration: '2 дня / 1 ночь',
@@ -61,10 +50,12 @@ const TOURS = [
     includes: ['Трансфер', 'Проживание в отеле', 'Завтрак', 'Русскоговорящее сопровождение', 'Все входные билеты'],
     extra: 'Обед + напиток (по желанию) — +10$',
     prices: [{ label: 'Гора Пидурангала', value: '130$' }, { label: 'Крепость Сигирия', value: '160$' }],
+    dates: [],
   },
   {
     id: 'safari',
     icon: 'paw',
+    image: 'images/safari.jpg',
     title: 'Сафари',
     subtitle: 'Встреча с дикой природой Шри-Ланки',
     duration: '~4 часа',
@@ -80,10 +71,12 @@ const TOURS = [
     includes: ['Трансфер', 'Сафари на джипах', 'Входные билеты', 'Русскоговорящее сопровождение'],
     extra: 'Обед + напиток (по желанию) — +10$',
     prices: [{ value: '85$ на человека' }],
+    dates: [],
   },
   {
     id: 'ella',
     icon: 'train',
+    image: 'images/ella.jpg',
     title: 'Элла',
     subtitle: 'Самые красивые виды горной Шри-Ланки за один день',
     duration: '1 день',
@@ -95,10 +88,12 @@ const TOURS = [
     includes: ['Трансфер', 'Русскоговорящее сопровождение', 'Все входные билеты', 'Поездка на поезде'],
     extra: 'Обед + напиток (по желанию) — +10$',
     prices: [{ value: '50$ на человека' }],
+    dates: [],
   },
   {
     id: 'ella_safari',
     icon: 'paw',
+    image: 'images/ella_safari.jpg',
     title: 'Элла + Сафари',
     subtitle: 'Горы, поезд и сафари за один день',
     duration: '1 день',
@@ -110,10 +105,12 @@ const TOURS = [
     includes: ['Трансфер', 'Джип-сафари', 'Входные билеты', 'Русскоговорящий гид', 'Поездка на поезде'],
     extra: 'Обед + напиток (по желанию) — +10$',
     prices: [{ value: '115$ на человека' }],
+    dates: [],
   },
   {
     id: 'whales',
     icon: 'whale',
+    image: 'images/whales.jpg',
     title: 'Морская экскурсия к китам',
     subtitle: 'Киты, дельфины и черепахи в открытом океане',
     duration: '3–4 часа',
@@ -123,10 +120,12 @@ const TOURS = [
     ],
     includes: ['Билет на морскую экскурсию', 'Трансфер от отеля до Мириссы'],
     prices: [{ value: '50$', label: 'Билет + трансфер от отеля' }],
+    dates: [],
   },
   {
     id: 'kandy',
     icon: 'elephant',
+    image: 'images/kandy.jpg',
     title: 'Канди + Питомник слонов',
     subtitle: 'Слоны, панорамные виды и чайные плантации за один день',
     duration: '1 день',
@@ -138,6 +137,7 @@ const TOURS = [
     extra: 'Обед +10$ (по желанию)',
     prices: [],
     note: 'Доступно индивидуально — цена по запросу',
+    dates: [],
   },
 ];
 
@@ -160,8 +160,7 @@ function priceDisplay(tour) {
 function renderTours() {
   const cards = TOURS.map(tour => `
     <div class="tour-card">
-      <div class="tour-card-cover" style="background:${coverColor(tour.id)}">
-        ${ICONS[tour.icon]}
+      <div class="tour-card-cover" style="background-image:url('${tour.image}')">
         <span class="tour-card-badge">${tour.duration}</span>
       </div>
       <div class="tour-card-body">
@@ -220,19 +219,6 @@ function renderTours() {
   });
 }
 
-function coverColor(id) {
-  // Лёгкое цветовое разнообразие обложек в пределах фирменной палитры
-  const variants = {
-    treasure: 'linear-gradient(135deg,#1F3524,#2C4A32)',
-    safari: 'linear-gradient(135deg,#2C4A32,#1F3524)',
-    ella: 'linear-gradient(135deg,#1F3524,#3A5A3F)',
-    ella_safari: 'linear-gradient(135deg,#2C4A32,#3A5A3F)',
-    whales: 'linear-gradient(135deg,#1F3524,#264438)',
-    kandy: 'linear-gradient(135deg,#2C4A32,#20361F)',
-  };
-  return variants[id] || 'var(--color-forest)';
-}
-
 // ---------------------------------------------------------------
 // Детальная страница тура
 // ---------------------------------------------------------------
@@ -262,6 +248,7 @@ function renderTourDetail(id) {
 
   content.innerHTML = `
     <button class="back-link" id="back-to-tours">← Все туры</button>
+    <div class="detail-cover" style="background-image:url('${tour.image}')"></div>
     <h1 class="section-title">${tour.title}</h1>
     <p class="lede">${tour.subtitle}</p>
 
@@ -318,14 +305,16 @@ function renderReviews() {
 // Вкладка "Бронирование"
 // ---------------------------------------------------------------
 
-function tomorrowISO() {
-  const d = new Date();
-  d.setDate(d.getDate() + 1);
-  return d.toISOString().slice(0, 10);
+const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+
+function formatDateLabel(iso) {
+  const [y, m, d] = iso.split('-').map(Number);
+  return `${d} ${MONTHS[m - 1]} ${y}`;
 }
 
 function renderBooking() {
-  const options = TOURS.map(t => `<option value="${t.id}" ${t.id === selectedTourId ? 'selected' : ''}>${t.title}</option>`).join('');
+  const initialTourId = selectedTourId || TOURS[0].id;
+  const options = TOURS.map(t => `<option value="${t.id}" ${t.id === initialTourId ? 'selected' : ''}>${t.title}</option>`).join('');
 
   content.innerHTML = `
     <h1 class="section-title">Бронирование</h1>
@@ -339,7 +328,8 @@ function renderBooking() {
 
       <div class="form-group">
         <label class="form-label">Дата экскурсии</label>
-        <input class="form-input" type="date" id="f-date" min="${tomorrowISO()}" required />
+        <select class="form-select" id="f-date" required></select>
+        <div id="date-empty-note"></div>
       </div>
 
       <div class="form-group">
@@ -370,7 +360,7 @@ function renderBooking() {
 
       <div id="booking-status"></div>
 
-      <button type="submit" class="btn btn-primary btn-block" style="padding:13px;font-size:14px;margin-top:6px;">Отправить заявку</button>
+      <button type="submit" class="btn btn-primary btn-block" id="booking-submit-btn" style="padding:13px;font-size:14px;margin-top:6px;">Отправить заявку</button>
     </form>
 
     <div class="upsell-note">
@@ -379,7 +369,33 @@ function renderBooking() {
     </div>
   `;
 
+  populateDateOptions(initialTourId);
+  document.getElementById('f-tour').addEventListener('change', (e) => populateDateOptions(e.target.value));
   document.getElementById('booking-form').addEventListener('submit', handleBookingSubmit);
+}
+
+function populateDateOptions(tourId) {
+  const tour = findTour(tourId);
+  const dateSelect = document.getElementById('f-date');
+  const noteEl = document.getElementById('date-empty-note');
+  const submitBtn = document.getElementById('booking-submit-btn');
+
+  const dates = tour?.dates || [];
+
+  if (!dates.length) {
+    dateSelect.innerHTML = '<option value="">Даты уточняются</option>';
+    dateSelect.disabled = true;
+    submitBtn.disabled = true;
+    noteEl.innerHTML = `<p class="status-msg" style="color:var(--color-ink-soft);margin-top:6px;">По этому туру пока нет открытых дат — напишите менеджеру, чтобы уточнить ближайший выезд: <a href="https://t.me/${MANAGER_USERNAME}" target="_blank" class="upsell-link">@${MANAGER_USERNAME}</a></p>`;
+    return;
+  }
+
+  dateSelect.disabled = false;
+  submitBtn.disabled = false;
+  noteEl.innerHTML = '';
+  dateSelect.innerHTML = dates
+    .map(iso => `<option value="${iso}">${formatDateLabel(iso)}</option>`)
+    .join('');
 }
 
 async function handleBookingSubmit(e) {
