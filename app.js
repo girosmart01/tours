@@ -50,7 +50,8 @@ const TOURS = [
     includes: ['Трансфер', 'Проживание в отеле', 'Завтрак', 'Русскоговорящее сопровождение', 'Все входные билеты'],
     extra: 'Обед + напиток (по желанию) — +10$',
     prices: [{ label: 'Гора Пидурангала', value: '130$' }, { label: 'Крепость Сигирия', value: '160$' }],
-    dates: [],
+    multiDay: true,
+    dates: ['2026-09-19', '2026-09-23', '2026-09-27'],
   },
   {
     id: 'safari',
@@ -71,7 +72,7 @@ const TOURS = [
     includes: ['Трансфер', 'Сафари на джипах', 'Входные билеты', 'Русскоговорящее сопровождение'],
     extra: 'Обед + напиток (по желанию) — +10$',
     prices: [{ value: '85$ на человека' }],
-    dates: [],
+    dates: ['2026-09-22', '2026-09-26', '2026-09-30'],
   },
   {
     id: 'ella',
@@ -88,7 +89,7 @@ const TOURS = [
     includes: ['Трансфер', 'Русскоговорящее сопровождение', 'Все входные билеты', 'Поездка на поезде'],
     extra: 'Обед + напиток (по желанию) — +10$',
     prices: [{ value: '50$ на человека' }],
-    dates: [],
+    dates: ['2026-09-20', '2026-09-24', '2026-09-28'],
   },
   {
     id: 'ella_safari',
@@ -105,7 +106,7 @@ const TOURS = [
     includes: ['Трансфер', 'Джип-сафари', 'Входные билеты', 'Русскоговорящий гид', 'Поездка на поезде'],
     extra: 'Обед + напиток (по желанию) — +10$',
     prices: [{ value: '115$ на человека' }],
-    dates: [],
+    dates: ['2026-09-19', '2026-09-23', '2026-09-27'],
   },
   {
     id: 'whales',
@@ -287,6 +288,58 @@ function renderTourDetail(id) {
 }
 
 // ---------------------------------------------------------------
+// Вкладка "Вопросы"
+// ---------------------------------------------------------------
+
+function renderFaq() {
+  content.innerHTML = `
+    <h1 class="section-title">Вопросы и ответы</h1>
+    <p class="lede">Если вы хотите увидеть настоящую Шри-Ланку, а не только пляж — вы по адресу.</p>
+
+    <div class="day-block">
+      <p class="day-region">🗺 Что мы организуем</p>
+      <ul class="day-items">
+        <li>Однодневные экскурсии</li>
+        <li>Двух- и многодневные туры</li>
+        <li>Индивидуальные маршруты</li>
+        <li>Групповые поездки</li>
+        <li>Трансферы</li>
+      </ul>
+    </div>
+
+    <div class="day-block">
+      <p class="day-region">🚗 Гиды и транспорт</p>
+      <ul class="day-items">
+        <li>Гиды — опытные ланкийцы, говорящие по-русски</li>
+        <li>Комфортные автомобили с кондиционером</li>
+        <li>Фото от гида — в подарок</li>
+      </ul>
+    </div>
+
+    <div class="notice">
+      <b>Трансфер из отдалённых курортов</b> (Коломбо, Тангалле, Бентота, Берувелла и другие) оплачивается дополнительно — уточним сумму при бронировании.
+    </div>
+
+    <div class="day-block" style="margin-top:18px;">
+      <p class="day-region">👨‍👩‍👧 Скидки для детей</p>
+      <ul class="day-items">
+        <li>До 5 лет — бесплатно</li>
+        <li>От 6 до 11 лет — скидка 50%</li>
+      </ul>
+    </div>
+
+    <div class="notice">
+      💰 <b>Оплата</b> — наличными, в рупиях или долларах.
+    </div>
+
+    <div class="upsell-note">
+      <p>Не нашли ответ на свой вопрос?</p>
+      <a href="https://t.me/${MANAGER_USERNAME}" target="_blank" class="upsell-link">Написать менеджеру → @${MANAGER_USERNAME}</a>
+    </div>
+  `;
+}
+
+// ---------------------------------------------------------------
 // Вкладка "Отзывы"
 // ---------------------------------------------------------------
 
@@ -310,6 +363,12 @@ const MONTHS = ['января', 'февраля', 'марта', 'апреля', 
 function formatDateLabel(iso) {
   const [y, m, d] = iso.split('-').map(Number);
   return `${d} ${MONTHS[m - 1]} ${y}`;
+}
+
+function formatDateLabelForTour(iso, tour) {
+  if (!tour?.multiDay) return formatDateLabel(iso);
+  const [y, m, d] = iso.split('-').map(Number);
+  return `${d}–${d + 1} ${MONTHS[m - 1]} ${y}`;
 }
 
 function renderBooking() {
@@ -394,7 +453,7 @@ function populateDateOptions(tourId) {
   submitBtn.disabled = false;
   noteEl.innerHTML = '';
   dateSelect.innerHTML = dates
-    .map(iso => `<option value="${iso}">${formatDateLabel(iso)}</option>`)
+    .map(iso => `<option value="${iso}">${formatDateLabelForTour(iso, tour)}</option>`)
     .join('');
 }
 
@@ -458,6 +517,7 @@ async function handleBookingSubmit(e) {
 
 const TABS = {
   tours: renderTours,
+  faq: renderFaq,
   reviews: renderReviews,
   booking: renderBooking,
 };
