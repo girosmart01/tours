@@ -442,7 +442,7 @@ function renderTours() {
         ${tour.category ? `<p class="tour-category">${tour.category}</p>` : ""}
         <p class="tour-card-title">${tour.title}</p>
         <p class="tour-card-sub">${tour.subtitle}</p>
-        ${tour.photoCredit ? photoCredit(tour) : ""}
+        
         <div class="tour-card-footer">
           <div>
             <span class="tour-price">${priceDisplay(tour)}</span>
@@ -520,7 +520,7 @@ function renderTourDetail(id) {
         <p class="lede">${tour.subtitle}</p>
       </header>
       <img class="detail-photo" src="${tour.image}" alt="${tour.title}" />
-      ${photoCredit(tour)}
+      
       <div class="detail-facts"><span>${tour.duration}</span>${tour.badge ? `<span>${tour.badge}</span>` : ''}</div>
       <div class="detail-prices">${prices}</div>
       <h2 class="program-title">Ваш маршрут</h2>
@@ -592,6 +592,12 @@ function renderFaq() {
       💰 <b>Оплата</b> — наличными, в рупиях или долларах.
     </div>
 
+    <details class="photo-sources">
+      <summary>Источники фотографий</summary>
+      <p>Иллюстрация к экскурсии «Рафтинг по горной реке»:</p>
+      ${photoCredit(findTour('rafting'))}
+    </details>
+
     <div class="upsell-note">
       <p>Не нашли ответ на свой вопрос?</p>
       <a href="https://t.me/${MANAGER_USERNAME}" target="_blank" class="upsell-link">Написать менеджеру → @${MANAGER_USERNAME}</a>
@@ -646,49 +652,49 @@ function renderBooking() {
 
   content.innerHTML = `
     <h1 class="section-title">Бронирование</h1>
-    <p class="lede">Выберите тур и дату — свяжемся с Вами для подтверждения.</p>
+    <p class="lede">Выберите тур и желаемую дату, заполните данные. Мы свяжемся с Вами для подтверждения поездки.</p>
 
     <form id="booking-form">
       <div class="form-group">
-        <label class="form-label">Тур</label>
+        <label class="form-label" for="f-tour">Тур</label>
         <select class="form-select" id="f-tour">${options}</select>
       </div>
 
       <div id="booking-fields">
       <div class="form-group">
-        <label class="form-label">Дата экскурсии</label>
-        <select class="form-select" id="f-date" required></select>
+        <label class="form-label" for="f-date">Желаемая дата экскурсии</label>
+        <input class="form-input" type="date" id="f-date" required aria-describedby="date-empty-note" />
         <div id="date-empty-note"></div>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Имя</label>
+        <label class="form-label" for="f-name">Имя</label>
         <input class="form-input" type="text" id="f-name" placeholder="Как к Вам обращаться" required />
       </div>
 
       <div class="form-group">
-        <label class="form-label">Телефон / WhatsApp</label>
+        <label class="form-label" for="f-phone">Телефон / WhatsApp</label>
         <input class="form-input" type="tel" id="f-phone" placeholder="+7 ..." required />
       </div>
 
       <div class="form-group">
-        <label class="form-label">Страна</label>
+        <label class="form-label" for="f-country">Страна</label>
         <input class="form-input" type="text" id="f-country" placeholder="Например, Казахстан" required />
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Отель</label>
+          <label class="form-label" for="f-hotel">Отель</label>
           <input class="form-input" type="text" id="f-hotel" placeholder="Название отеля" />
         </div>
         <div class="form-group">
-          <label class="form-label">№ комнаты</label>
+          <label class="form-label" for="f-room">№ комнаты</label>
           <input class="form-input" type="text" id="f-room" placeholder="Необязательно" />
         </div>
       </div>
 
       </div>
-      <div id="booking-manager"></div>
+
       <div id="booking-status"></div>
 
       <button type="submit" class="btn btn-primary btn-block" id="booking-submit-btn" style="padding:13px;font-size:14px;margin-top:6px;">Отправить заявку</button>
@@ -701,43 +707,42 @@ function renderBooking() {
   `;
 
   populateDateOptions(initialTourId);
+  document.getElementById('f-date').addEventListener('input', validateBookingDate);
   document.getElementById('f-tour').addEventListener('change', (e) => populateDateOptions(e.target.value));
   document.getElementById('booking-form').addEventListener('submit', handleBookingSubmit);
 }
 
 function populateDateOptions(tourId) {
-  const tour = findTour(tourId);
-  const dateSelect = document.getElementById('f-date');
-  const noteEl = document.getElementById('date-empty-note');
-  const submitBtn = document.getElementById('booking-submit-btn');
-
-  const dates = (tour?.dates || []).filter(d => d >= sriLankaToday());
-  const fields = document.getElementById('booking-fields');
-  const manager = document.getElementById('booking-manager');
   selectedTourId = tourId;
-  fields.hidden = !dates.length;
-  submitBtn.hidden = !dates.length;
-  fields.querySelectorAll('input, select').forEach(el => {el.disabled = !dates.length;});
-  manager.innerHTML = !dates.length ? `<section class="booking-request"><p class="tour-category">Заявка через менеджера</p><h2>${tour.title}</h2><p>${tour.id==='rafting' ? 'Выезды по пятницам. Участие с 18 лет. ' : ''}Напишите желаемую дату и количество участников — менеджер подтвердит возможность поездки и стоимость.</p>${tour.prices.length ? `<p class="request-price">${priceDisplay(tour)} <small>за человека</small></p>` : ''}<a class="btn btn-primary btn-block" href="https://t.me/${MANAGER_USERNAME}" target="_blank" rel="noopener noreferrer">Написать @${MANAGER_USERNAME}</a></section>` : '';
-
-  if (!dates.length) {
-    dateSelect.innerHTML = '<option value="">Даты уточняются</option>';
-    dateSelect.disabled = true;
-    submitBtn.disabled = true;
-    noteEl.innerHTML = `<p class="status-msg" style="color:var(--color-ink-soft);margin-top:6px;">По этому туру пока нет открытых дат — напишите менеджеру, чтобы уточнить ближайший выезд: <a href="https://t.me/${MANAGER_USERNAME}" target="_blank" class="upsell-link">@${MANAGER_USERNAME}</a></p>`;
-    return;
+  const input = document.getElementById('f-date');
+  const note = document.getElementById('date-empty-note');
+  const today = sriLankaToday();
+  input.min = today;
+  input.step = '1';
+  if (tourId === 'rafting') {
+    const next = new Date(`${today}T12:00:00Z`);
+    next.setUTCDate(next.getUTCDate() + (5 - next.getUTCDay() + 7) % 7);
+    input.min = next.toISOString().slice(0,10);
+    input.step = '7';
+    note.textContent = 'Рафтинг проходит по пятницам, участие с 18 лет. Дату и наличие мест подтвердит менеджер.';
+  } else {
+    note.textContent = 'Укажите удобную дату. Заявка не гарантирует наличие мест — поездку подтвердит менеджер.';
   }
+  if (input.value && (input.value < input.min || (tourId === 'rafting' && new Date(`${input.value}T12:00:00Z`).getUTCDay() !== 5))) input.value = '';
+  validateBookingDate();
+}
 
-  dateSelect.disabled = false;
-  submitBtn.disabled = false;
-  noteEl.innerHTML = '';
-  dateSelect.innerHTML = dates
-    .map(iso => `<option value="${iso}">${formatDateLabelForTour(iso, tour)}</option>`)
-    .join('');
+function validateBookingDate() {
+  const input = document.getElementById('f-date');
+  input.setCustomValidity('');
+  if (input.value && input.value < sriLankaToday()) input.setCustomValidity('Выберите сегодняшнюю или будущую дату.');
+  else if (input.value && document.getElementById('f-tour').value === 'rafting' && new Date(`${input.value}T12:00:00Z`).getUTCDay() !== 5) input.setCustomValidity('Для рафтинга выберите пятницу.');
+  return input.validity.valid;
 }
 
 async function handleBookingSubmit(e) {
   e.preventDefault();
+  if (!validateBookingDate() || !e.target.reportValidity()) return;
   const statusEl = document.getElementById('booking-status');
   const submitBtn = e.target.querySelector('button[type="submit"]');
 
@@ -763,6 +768,7 @@ async function handleBookingSubmit(e) {
   };
 
   submitBtn.disabled = true;
+  statusEl.className = '';
   statusEl.innerHTML = '<p class="status-msg">Отправка…</p>';
 
   try {
@@ -773,7 +779,8 @@ async function handleBookingSubmit(e) {
     });
     const data = await res.json();
     if (!res.ok) {
-      statusEl.innerHTML = `<p class="status-msg error">${data.detail || 'Не удалось отправить заявку.'}</p>`;
+      statusEl.textContent = typeof data.detail === 'string' ? data.detail : 'Не удалось отправить заявку. Проверьте заполненные поля.';
+      statusEl.className = 'status-msg error';
       submitBtn.disabled = false;
       return;
     }

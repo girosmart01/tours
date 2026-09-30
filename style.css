@@ -625,3 +625,10 @@ html, body {
   .content { padding-left:16px; padding-right:16px; }
   .infographic-heading .section-title { font-size:26px; }
 }
+
+/* Full request form for every excursion. */
+#f-date { min-height:44px; width:100%; max-width:100%; }
+#date-empty-note { font-size:12px; line-height:1.6; color:var(--color-ink-soft); margin-top:8px; }
+.photo-sources { margin-top:24px; padding-top:16px; border-top:1px solid var(--color-line); color:var(--color-ink-soft); font-size:12px; }
+.photo-sources summary { cursor:pointer; }
+.photo-sources p { line-height:1.6; }
