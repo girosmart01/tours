@@ -27,119 +27,392 @@ const MANAGER_USERNAME = 'igiro01';
 
 const TOURS = [
   {
-    id: 'treasure',
-    icon: 'fortress',
-    image: 'images/treasure.jpg',
-    title: 'Сокровище Цейлона',
-    subtitle: '2 дня среди гор, поездов и древних крепостей',
-    duration: '2 дня / 1 ночь',
-    sections: [
+    "id": "golden_ring",
+    "icon": "fortress",
+    "image": "images/treasure.jpg",
+    "title": "Золотое кольцо Шри-Ланки",
+    "subtitle": "Три дня среди древних крепостей, чайных холмов и горных пейзажей — от Пинавеллы до Эллы.",
+    "duration": "3 дня / 2 ночи",
+    "sections": [
       {
-        label: 'День 1', heading: 'Элла • Нувара-Элия',
-        items: ['Водопад Равана', 'Малый Пик Адама (подъём ~25 мин)', 'Девятиарочный мост',
-          'Город Элла', 'Поездка на поезде (35–40 мин)', 'Почтовый офис в Нувара-Элии',
-          'Чайные плантации и фабрика', 'Ночь в отеле в горах'],
+        "label": "День 1",
+        "heading": "Пинавелла → Сигирия → Дамбулла",
+        "items": [
+          "Выезд из вашего отеля ориентировочно в 02:30–03:30; время зависит от курорта",
+          "Посещение слоновьего питомника в Пинавелле",
+          "Подъём на Пидурангалу или Сигирию — по выбранной программе",
+          "Знакомство с деревней Сигирия: поездка на повозке с буйволом и прогулка на речном катамаране",
+          "Посещение местного дома и демонстрация приготовления ланкийских блюд",
+          "Остановка у храмового комплекса Дамбулла без подъёма в пещеры",
+          "Ночёвка в отеле; ужин и завтрак включены"
+        ]
       },
       {
-        label: 'День 2', heading: 'Канди • Пинавелла • Сигирия',
-        items: ['Водопад Рамбода', 'Башня Амбулувава (башня 4-х религий)', 'Кормление обезьян',
-          'Кормление слонов в Пинавелле', 'Крепость Сигирия или гора Пидурангала',
-          'Храм Дамбулла (15 мин, без подъёма в пещеры)', 'Аюрведический сад'],
+        "label": "День 2",
+        "heading": "Канди → Нувара-Элия",
+        "items": [
+          "Башня Амбулувава",
+          "Прогулка по Королевскому ботаническому саду",
+          "Посещение аюрведического сада специй",
+          "Чайные плантации и знакомство с производством на фабрике",
+          "Водопад Рамбода",
+          "Вторая ночь в отеле; ужин и завтрак включены"
+        ]
       },
-    ],
-    includes: ['Трансфер', 'Проживание в отеле', 'Завтрак', 'Русскоговорящее сопровождение', 'Все входные билеты'],
-    extra: 'Обед + напиток (по желанию) — +10$',
-    prices: [{ label: 'Гора Пидурангала', value: '130$' }, { label: 'Крепость Сигирия', value: '160$' }],
-    multiDay: true,
-    dates: ['2026-09-19', '2026-09-23', '2026-09-27'],
-  },
-  {
-    id: 'safari',
-    icon: 'paw',
-    image: 'images/safari.jpg',
-    title: 'Сафари',
-    subtitle: 'Встреча с дикой природой Шри-Ланки',
-    duration: '~4 часа',
-    sections: [
-      { items: ['Выезд в 3:00–4:00 утра', 'Старт сафари в национальном парке в 6:00',
-        'Экскурсия на джипах', 'Длительность 3,5–4 часа'] },
       {
-        heading: 'В парке можно встретить',
-        items: ['Слонов', 'Леопардов', 'Крокодилов', 'Варанов', 'Обезьян', 'Мангустов',
-          'Диких буйволов', 'Пятнистых оленей', 'Павлинов', 'Экзотических птиц'],
+        "label": "День 3",
+        "heading": "Нувара-Элия → Элла",
+        "items": [
+          "Знакомство с Нувара-Элией и посещение почтового офиса",
+          "Короткая поездка на поезде",
+          "Остановка в Элле со временем для обеда",
+          "Девятиарочный мост",
+          "Подъём на Малый пик Адама — около 25 минут",
+          "Водопад Равана",
+          "Возвращение в ваш отель примерно в 20:00–22:00; время зависит от курорта"
+        ]
+      }
+    ],
+    "includes": [
+      "Трансфер по программе",
+      "Две ночи в отеле",
+      "Ужины и завтраки при ночёвках",
+      "Русскоговорящее сопровождение",
+      "Входные билеты по программе"
+    ],
+    "extra": "Обед с напитком — 10$ по желанию. Одноместное размещение — +25$ за ночь (+50$ за две ночи). Трансфер из дальних курортов, включая Коломбо, Калутару, Бентоту и Берувеллу, оплачивается отдельно.",
+    "prices": [
+      {
+        "label": "С подъёмом на Пидурангалу, за человека",
+        "value": "250$"
       },
+      {
+        "label": "С подъёмом на Сигирию, за человека",
+        "value": "280$"
+      }
     ],
-    includes: ['Трансфер', 'Сафари на джипах', 'Входные билеты', 'Русскоговорящее сопровождение'],
-    extra: 'Обед + напиток (по желанию) — +10$',
-    prices: [{ value: '85$ на человека' }],
-    dates: ['2026-09-22', '2026-09-26', '2026-09-30'],
+    "note": "Цена рассчитана на двухместное размещение. Дети младше 5 лет — бесплатно, 6–11 лет — скидка 50%. Оплата: наличными в рупиях или долларах либо переводом на карту. Дата выезда подтверждается менеджером.",
+    "dates": [],
+    "category": "Многодневные",
+    "featured": true,
+    "days": 3,
+    "badge": "Новинка сезона"
   },
   {
-    id: 'ella',
-    icon: 'train',
-    image: 'images/ella.jpg',
-    title: 'Элла',
-    subtitle: 'Самые красивые виды горной Шри-Ланки за один день',
-    duration: '1 день',
-    sections: [{
-      items: ['Водопад Равана', 'Малый Пик Адама (подъём ~25 мин)', 'Девятиарочный мост',
-        'Город Элла', 'Поездка на поезде (одна станция, ~20 мин)', 'Чайные плантации',
-        'Аюрведический сад', 'Слоны возле парка Удавалаве (фото)'],
-    }],
-    includes: ['Трансфер', 'Русскоговорящее сопровождение', 'Все входные билеты', 'Поездка на поезде'],
-    extra: 'Обед + напиток (по желанию) — +10$',
-    prices: [{ value: '50$ на человека' }],
-    dates: ['2026-09-20', '2026-09-24', '2026-09-28'],
-  },
-  {
-    id: 'ella_safari',
-    icon: 'paw',
-    image: 'images/ella_safari.jpg',
-    title: 'Элла + Сафари',
-    subtitle: 'Горы, поезд и сафари за один день',
-    duration: '1 день',
-    sections: [{
-      items: ['Сафари по национальному парку Удавалаве или Яла (~3–4 часа)', 'Водопад Равана',
-        'Девятиарочный мост', 'Малый Пик Адама', 'Катание на поезде (одна станция, ~15 мин)',
-        'Чайные плантации', 'Аюрведический сад'],
-    }],
-    includes: ['Трансфер', 'Джип-сафари', 'Входные билеты', 'Русскоговорящий гид', 'Поездка на поезде'],
-    extra: 'Обед + напиток (по желанию) — +10$',
-    prices: [{ value: '115$ на человека' }],
-    dates: ['2026-09-19', '2026-09-23', '2026-09-27'],
-  },
-  {
-    id: 'whales',
-    icon: 'whale',
-    image: 'images/whales.jpg',
-    title: 'Морская экскурсия к китам',
-    subtitle: 'Киты, дельфины и черепахи в открытом океане',
-    duration: '3–4 часа',
-    sections: [
-      { items: ['Начало в 6:00 в Мириссе', 'Выход в океан', '3–4 часа в открытом океане'] },
-      { heading: 'За время программы можно увидеть', items: ['Китов', 'Дельфинов', 'Черепах'] },
+    "id": "treasure",
+    "icon": "fortress",
+    "image": "images/treasure.jpg",
+    "title": "Сокровище Цейлона",
+    "subtitle": "2 дня среди гор, поездов и древних крепостей",
+    "duration": "2 дня / 1 ночь",
+    "sections": [
+      {
+        "label": "День 1",
+        "heading": "Элла • Нувара-Элия",
+        "items": [
+          "Водопад Равана",
+          "Малый Пик Адама (подъём ~25 мин)",
+          "Девятиарочный мост",
+          "Город Элла",
+          "Поездка на поезде (35–40 мин)",
+          "Почтовый офис в Нувара-Элии",
+          "Чайные плантации и фабрика",
+          "Ночь в отеле в горах"
+        ]
+      },
+      {
+        "label": "День 2",
+        "heading": "Канди • Пинавелла • Сигирия",
+        "items": [
+          "Водопад Рамбода",
+          "Башня Амбулувава (башня 4-х религий)",
+          "Кормление обезьян",
+          "Кормление слонов в Пинавелле",
+          "Крепость Сигирия или гора Пидурангала",
+          "Храм Дамбулла (15 мин, без подъёма в пещеры)",
+          "Аюрведический сад"
+        ]
+      }
     ],
-    includes: ['Билет на морскую экскурсию', 'Трансфер от отеля до Мириссы'],
-    prices: [{ value: '50$', label: 'Билет + трансфер от отеля' }],
-    dates: [],
+    "includes": [
+      "Трансфер",
+      "Проживание в отеле",
+      "Завтрак",
+      "Русскоговорящее сопровождение",
+      "Все входные билеты"
+    ],
+    "extra": "Обед + напиток (по желанию) — +10$",
+    "prices": [
+      {
+        "label": "Гора Пидурангала",
+        "value": "130$"
+      },
+      {
+        "label": "Крепость Сигирия",
+        "value": "160$"
+      }
+    ],
+    "multiDay": true,
+    "dates": [
+      "2026-09-19",
+      "2026-09-23",
+      "2026-09-27"
+    ]
   },
   {
-    id: 'kandy',
-    icon: 'elephant',
-    image: 'images/kandy.jpg',
-    title: 'Канди + Питомник слонов',
-    subtitle: 'Слоны, панорамные виды и чайные плантации за один день',
-    duration: '1 день',
-    sections: [{
-      items: ['Купание слонов в Пинавелле', 'Аюрведический сад', 'Храм Неллигала',
-        'Башня Амбулувава', 'Чайная фабрика', 'Чайные плантации'],
-    }],
-    includes: ['Трансфер', 'Русскоговорящее сопровождение', 'Все входные билеты', 'Посещение чайной фабрики'],
-    extra: 'Обед +10$ (по желанию)',
-    prices: [],
-    note: 'Доступно индивидуально — цена по запросу',
-    dates: [],
+    "id": "rafting",
+    "icon": "raft",
+    "image": "images/rafting.jpg",
+    "title": "Рафтинг по горной реке",
+    "subtitle": "Пороги, тропическая зелень и полтора–два часа сплава с инструктором. Выезды по пятницам.",
+    "duration": "1 день",
+    "sections": [
+      {
+        "heading": "Пятничное приключение",
+        "items": [
+          "Трансфер от вашего отеля ориентировочно в 04:00–05:00; время зависит от расположения",
+          "Начало программы в 08:00",
+          "Инструктаж и подготовка к выходу на воду",
+          "Сплав на рафте с инструктором — около 1,5–2 часов",
+          "Время для отдыха и обеда по желанию",
+          "Обратный трансфер в отель; точное время не указано"
+        ]
+      }
+    ],
+    "includes": [
+      "Трансфер от отеля и обратно",
+      "Входные билеты",
+      "Русскоговорящий гид",
+      "Сплав с инструктором",
+      "Рафт и необходимое снаряжение"
+    ],
+    "extra": "Обед с напитком — 10$ по желанию.",
+    "prices": [
+      {
+        "label": "За человека при группе 10–12 участников",
+        "value": "75$"
+      },
+      {
+        "label": "За человека при группе 5–8 участников",
+        "value": "100$"
+      }
+    ],
+    "note": "Только для участников от 18 лет. Проведение зависит от погоды и уровня воды. Для группы из 9 человек и другого состава, не указанного в тарифах, цена уточняется у менеджера. Оплата: наличными в рупиях или долларах либо переводом на карту.",
+    "dates": [],
+    "category": "Активный отдых",
+    "featured": true,
+    "badge": "По пятницам · 18+",
+    "photoCredit": {
+      "author": "Rehman Abubakr",
+      "source": "https://commons.wikimedia.org/wiki/File:KitulgalaRafting-March2013-01.JPG",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    }
   },
+  {
+    "id": "safari",
+    "icon": "paw",
+    "image": "images/safari.jpg",
+    "title": "Сафари",
+    "subtitle": "Встреча с дикой природой Шри-Ланки",
+    "duration": "~4 часа",
+    "sections": [
+      {
+        "items": [
+          "Выезд в 3:00–4:00 утра",
+          "Старт сафари в национальном парке в 6:00",
+          "Экскурсия на джипах",
+          "Длительность 3,5–4 часа"
+        ]
+      },
+      {
+        "heading": "В парке можно встретить",
+        "items": [
+          "Слонов",
+          "Леопардов",
+          "Крокодилов",
+          "Варанов",
+          "Обезьян",
+          "Мангустов",
+          "Диких буйволов",
+          "Пятнистых оленей",
+          "Павлинов",
+          "Экзотических птиц"
+        ]
+      }
+    ],
+    "includes": [
+      "Трансфер",
+      "Сафари на джипах",
+      "Входные билеты",
+      "Русскоговорящее сопровождение"
+    ],
+    "extra": "Обед + напиток (по желанию) — +10$",
+    "prices": [
+      {
+        "value": "85$"
+      }
+    ],
+    "dates": [
+      "2026-09-22",
+      "2026-09-26",
+      "2026-09-30"
+    ]
+  },
+  {
+    "id": "ella",
+    "icon": "train",
+    "image": "images/ella.jpg",
+    "title": "Элла",
+    "subtitle": "Самые красивые виды горной Шри-Ланки за один день",
+    "duration": "1 день",
+    "sections": [
+      {
+        "items": [
+          "Водопад Равана",
+          "Малый Пик Адама (подъём ~25 мин)",
+          "Девятиарочный мост",
+          "Город Элла",
+          "Поездка на поезде (одна станция, ~20 мин)",
+          "Чайные плантации",
+          "Аюрведический сад",
+          "Слоны возле парка Удавалаве (фото)"
+        ]
+      }
+    ],
+    "includes": [
+      "Трансфер",
+      "Русскоговорящее сопровождение",
+      "Все входные билеты",
+      "Поездка на поезде"
+    ],
+    "extra": "Обед + напиток (по желанию) — +10$",
+    "prices": [
+      {
+        "value": "50$"
+      }
+    ],
+    "dates": [
+      "2026-09-20",
+      "2026-09-24",
+      "2026-09-28"
+    ]
+  },
+  {
+    "id": "ella_safari",
+    "icon": "paw",
+    "image": "images/ella_safari.jpg",
+    "title": "Элла + Сафари",
+    "subtitle": "Горы, поезд и сафари за один день",
+    "duration": "1 день",
+    "sections": [
+      {
+        "items": [
+          "Сафари по национальному парку Удавалаве или Яла (~3–4 часа)",
+          "Водопад Равана",
+          "Девятиарочный мост",
+          "Малый Пик Адама",
+          "Катание на поезде (одна станция, ~15 мин)",
+          "Чайные плантации",
+          "Аюрведический сад"
+        ]
+      }
+    ],
+    "includes": [
+      "Трансфер",
+      "Джип-сафари",
+      "Входные билеты",
+      "Русскоговорящий гид",
+      "Поездка на поезде"
+    ],
+    "extra": "Обед + напиток (по желанию) — +10$",
+    "prices": [
+      {
+        "value": "115$"
+      }
+    ],
+    "dates": [
+      "2026-09-19",
+      "2026-09-23",
+      "2026-09-27"
+    ]
+  },
+  {
+    "id": "whales",
+    "icon": "whale",
+    "image": "images/whales.jpg",
+    "title": "Морская экскурсия к китам",
+    "subtitle": "Киты, дельфины и черепахи в открытом океане",
+    "duration": "3–4 часа",
+    "sections": [
+      {
+        "items": [
+          "Начало в 6:00 в Мириссе",
+          "Выход в океан",
+          "3–4 часа в открытом океане"
+        ]
+      },
+      {
+        "heading": "За время программы можно увидеть",
+        "items": [
+          "Китов",
+          "Дельфинов",
+          "Черепах"
+        ]
+      }
+    ],
+    "includes": [
+      "Билет на морскую экскурсию",
+      "Трансфер от отеля до Мириссы"
+    ],
+    "prices": [
+      {
+        "value": "50$",
+        "label": "Билет + трансфер от отеля"
+      }
+    ],
+    "dates": []
+  },
+  {
+    "id": "kandy",
+    "icon": "elephant",
+    "image": "images/kandy.jpg",
+    "title": "Канди + Питомник слонов",
+    "subtitle": "Понаблюдайте за купанием слонов, поднимитесь к панорамам Амбулувавы и побывайте на чайной фабрике за один день.",
+    "duration": "1 день",
+    "sections": [
+      {
+        "heading": "Маршрут на один день",
+        "items": [
+          "Выезд из вашего отеля примерно в 03:00–04:00",
+          "Наблюдение за купанием слонов в Пинавелле",
+          "Посещение аюрведического сада",
+          "Храм Неллигала или Королевский ботанический сад — на выбор",
+          "Подъём на башню Амбулувава",
+          "Посещение чайной фабрики",
+          "Прогулка по чайным плантациям",
+          "Возвращение в ваш отель ориентировочно в 17:00–18:00"
+        ]
+      }
+    ],
+    "includes": [
+      "Трансфер",
+      "Русскоговорящее сопровождение",
+      "Входные билеты по программе",
+      "Посещение чайной фабрики"
+    ],
+    "extra": "Обед с напитком — 10$ по желанию.",
+    "prices": [
+      {
+        "value": "85$",
+        "label": "За человека, независимо от размера группы"
+      }
+    ],
+    "note": "Дети младше 5 лет — бесплатно, 6–11 лет — скидка 50%. Время трансфера зависит от расположения отеля. Дата выезда подтверждается менеджером.",
+    "dates": [],
+    "category": "Однодневные",
+    "featured": true
+  }
 ];
 
 let selectedTourId = null;
@@ -163,10 +436,13 @@ function renderTours() {
     <div class="tour-card">
       <div class="tour-card-cover" style="background-image:url('${tour.image}')">
         <span class="tour-card-badge">${tour.duration}</span>
+        ${tour.badge ? `<span class="tour-new-badge">${tour.badge}</span>` : ""}
       </div>
       <div class="tour-card-body">
+        ${tour.category ? `<p class="tour-category">${tour.category}</p>` : ""}
         <p class="tour-card-title">${tour.title}</p>
         <p class="tour-card-sub">${tour.subtitle}</p>
+        ${tour.photoCredit ? photoCredit(tour) : ""}
         <div class="tour-card-footer">
           <div>
             <span class="tour-price">${priceDisplay(tour)}</span>
@@ -224,67 +500,50 @@ function renderTours() {
 // Детальная страница тура
 // ---------------------------------------------------------------
 
+function photoCredit(tour) {
+  const c = tour.photoCredit;
+  return c ? `<p class="photo-credit">Фото: <a href="${c.source}" target="_blank" rel="noopener noreferrer">${c.author}</a> · <a href="${c.licenseUrl}" target="_blank" rel="noopener noreferrer">${c.license}</a>. Изображение без изменений; кадрирование при отображении.</p>` : '';
+}
+
 function renderTourDetail(id) {
   const tour = findTour(id);
   if (!tour) { renderTours(); return; }
-
-  const sections = tour.sections.map(sec => `
-    <div class="day-block">
-      ${sec.label ? `<p class="day-label">${sec.label}</p>` : ''}
-      ${sec.heading ? `<p class="day-region">${sec.heading}</p>` : ''}
-      <ul class="day-items">
-        ${sec.items.map(i => `<li>${i}</li>`).join('')}
-      </ul>
-    </div>
-  `).join('');
-
-  const pricesHtml = tour.prices.length
-    ? tour.prices.map(p => `
-        <div>
-          <div class="price-big">${p.value}</div>
-          ${p.label ? `<div class="price-label">${p.label}</div>` : '<div class="price-label">за человека</div>'}
-        </div>
-      `).join('<div class="divider" style="margin:10px 0;"></div>')
-    : `<div class="price-big">По запросу</div><div class="price-label">напишите менеджеру для расчёта</div>`;
-
+  const prices = tour.prices.length ? tour.prices.map(p => `
+    <div class="detail-price"><strong>${p.value}</strong><span>${p.label || 'за человека'}</span></div>
+  `).join('') : '<div class="detail-price"><strong>По запросу</strong><span>Стоимость уточнит менеджер</span></div>';
   content.innerHTML = `
     <button class="back-link" id="back-to-tours">← Все туры</button>
-    <div class="detail-cover" style="background-image:url('${tour.image}')"></div>
-    <h1 class="section-title">${tour.title}</h1>
-    <p class="lede">${tour.subtitle}</p>
-
-    ${sections}
-
-    <div class="includes-grid">
-      <div class="includes-box">
-        <h4>✅ В стоимость входит</h4>
-        <ul>${tour.includes.map(i => `<li>${i}</li>`).join('')}</ul>
+    <article class="tour-infographic" aria-label="Программа: ${tour.title}">
+      <header class="infographic-heading">
+        <p class="tour-category">${tour.category || 'Экскурсии по Шри-Ланке'}</p>
+        <h1 class="section-title">${tour.title}</h1>
+        <p class="lede">${tour.subtitle}</p>
+      </header>
+      <img class="detail-photo" src="${tour.image}" alt="${tour.title}" />
+      ${photoCredit(tour)}
+      <div class="detail-facts"><span>${tour.duration}</span>${tour.badge ? `<span>${tour.badge}</span>` : ''}</div>
+      <div class="detail-prices">${prices}</div>
+      <h2 class="program-title">Ваш маршрут</h2>
+      <div class="route-timeline">${tour.sections.map((sec, index) => `
+        <section class="route-section">
+          <div class="route-number">${String(index + 1).padStart(2, '0')}</div>
+          <div class="route-body">
+            ${sec.label ? `<p class="day-label">${sec.label}</p>` : ''}
+            ${sec.heading ? `<h3 class="route-heading">${sec.heading}</h3>` : ''}
+            <ol class="route-stops">${sec.items.map(item=>`<li>${item}</li>`).join('')}</ol>
+          </div>
+        </section>`).join('')}
       </div>
-      ${tour.extra ? `
-        <div class="includes-box">
-          <h4>➕ Дополнительно</h4>
-          <ul><li>${tour.extra}</li></ul>
-        </div>
-      ` : ''}
-    </div>
-
-    <div class="price-block">${pricesHtml}</div>
-
-    ${tour.note ? `<div class="notice">${tour.note}</div>` : ''}
-
-    <button class="btn btn-primary btn-block" id="detail-book-btn" style="padding:13px;font-size:14px;margin-top:18px;">Забронировать этот тур</button>
-
-    <div class="upsell-note">
-      <p>Хотите под себя — другие даты, состав группы, маршрут?</p>
-      <a href="https://t.me/${MANAGER_USERNAME}" target="_blank" class="upsell-link">Обсудить индивидуально → @${MANAGER_USERNAME}</a>
-    </div>
-  `;
-
-  document.getElementById('back-to-tours').addEventListener('click', renderTours);
-  document.getElementById('detail-book-btn').addEventListener('click', () => {
-    selectedTourId = tour.id;
-    switchTab('booking');
-  });
+      <section class="included-panel"><h2>Включено в стоимость</h2><ul>${tour.includes.map(x=>`<li>${x}</li>`).join('')}</ul></section>
+      ${tour.extra ? `<section class="extras-panel"><h2>Оплачивается отдельно</h2><p>${tour.extra}</p></section>` : ''}
+      ${tour.note ? `<div class="notice">${tour.note}</div>` : ''}
+      <button class="btn btn-primary btn-block detail-book" id="detail-book-btn">Забронировать</button>
+      <p class="booking-caption">Дату и детали поездки подтвердит менеджер</p>
+      <a href="https://t.me/${MANAGER_USERNAME}" target="_blank" rel="noopener noreferrer" class="detail-contact">Связаться в Telegram · @${MANAGER_USERNAME}</a>
+    </article>`;
+  document.getElementById('back-to-tours').addEventListener('click', () => {renderTours();window.scrollTo(0,0);});
+  document.getElementById('detail-book-btn').addEventListener('click', () => {selectedTourId=tour.id;switchTab('booking');});
+  window.scrollTo(0,0);
 }
 
 // ---------------------------------------------------------------
@@ -323,8 +582,9 @@ function renderFaq() {
     <div class="day-block" style="margin-top:18px;">
       <p class="day-region">👨‍👩‍👧 Скидки для детей</p>
       <ul class="day-items">
-        <li>До 5 лет — бесплатно</li>
-        <li>От 6 до 11 лет — скидка 50%</li>
+        <li>Младше 5 лет — бесплатно на экскурсиях с детским тарифом</li>
+        <li>От 6 до 11 лет — скидка 50% на экскурсиях с детским тарифом</li>
+        <li>Рафтинг доступен только участникам от 18 лет</li>
       </ul>
     </div>
 
@@ -366,9 +626,18 @@ function formatDateLabel(iso) {
 }
 
 function formatDateLabelForTour(iso, tour) {
-  if (!tour?.multiDay) return formatDateLabel(iso);
-  const [y, m, d] = iso.split('-').map(Number);
-  return `${d}–${d + 1} ${MONTHS[m - 1]} ${y}`;
+  const days = tour?.days || (tour?.multiDay ? 2 : 1);
+  if (days === 1) return formatDateLabel(iso);
+  const [y,m,d] = iso.split('-').map(Number);
+  const end = new Date(Date.UTC(y,m-1,d + days-1));
+  const last = `${end.getUTCFullYear()}-${String(end.getUTCMonth()+1).padStart(2,'0')}-${String(end.getUTCDate()).padStart(2,'0')}`;
+  return `${formatDateLabel(iso)} — ${formatDateLabel(last)}`;
+}
+
+function sriLankaToday() {
+  const parts = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Colombo',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+  const part = kind => parts.find(x=>x.type===kind).value;
+  return `${part('year')}-${part('month')}-${part('day')}`;
 }
 
 function renderBooking() {
@@ -385,6 +654,7 @@ function renderBooking() {
         <select class="form-select" id="f-tour">${options}</select>
       </div>
 
+      <div id="booking-fields">
       <div class="form-group">
         <label class="form-label">Дата экскурсии</label>
         <select class="form-select" id="f-date" required></select>
@@ -417,6 +687,8 @@ function renderBooking() {
         </div>
       </div>
 
+      </div>
+      <div id="booking-manager"></div>
       <div id="booking-status"></div>
 
       <button type="submit" class="btn btn-primary btn-block" id="booking-submit-btn" style="padding:13px;font-size:14px;margin-top:6px;">Отправить заявку</button>
@@ -439,7 +711,14 @@ function populateDateOptions(tourId) {
   const noteEl = document.getElementById('date-empty-note');
   const submitBtn = document.getElementById('booking-submit-btn');
 
-  const dates = tour?.dates || [];
+  const dates = (tour?.dates || []).filter(d => d >= sriLankaToday());
+  const fields = document.getElementById('booking-fields');
+  const manager = document.getElementById('booking-manager');
+  selectedTourId = tourId;
+  fields.hidden = !dates.length;
+  submitBtn.hidden = !dates.length;
+  fields.querySelectorAll('input, select').forEach(el => {el.disabled = !dates.length;});
+  manager.innerHTML = !dates.length ? `<section class="booking-request"><p class="tour-category">Заявка через менеджера</p><h2>${tour.title}</h2><p>${tour.id==='rafting' ? 'Выезды по пятницам. Участие с 18 лет. ' : ''}Напишите желаемую дату и количество участников — менеджер подтвердит возможность поездки и стоимость.</p>${tour.prices.length ? `<p class="request-price">${priceDisplay(tour)} <small>за человека</small></p>` : ''}<a class="btn btn-primary btn-block" href="https://t.me/${MANAGER_USERNAME}" target="_blank" rel="noopener noreferrer">Написать @${MANAGER_USERNAME}</a></section>` : '';
 
   if (!dates.length) {
     dateSelect.innerHTML = '<option value="">Даты уточняются</option>';
@@ -527,6 +806,7 @@ function switchTab(tabId) {
     btn.setAttribute('aria-selected', String(btn.dataset.tab === tabId));
   });
   TABS[tabId]();
+  window.scrollTo(0,0);
 }
 
 tabButtons.forEach(btn => {

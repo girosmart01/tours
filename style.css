@@ -576,3 +576,52 @@ html, body {
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
+
+/* Updated excursions: native, readable infographic cards. */
+[hidden] { display: none !important; }
+.tour-category { margin: 0 0 9px; color: #746032; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .11em; }
+.tour-new-badge { position:absolute; bottom:10px; left:12px; z-index:1; padding:5px 9px; border-radius:6px; background:var(--color-forest); color:var(--color-paper); font-size:10px; font-weight:600; }
+.tour-card-cover { background-color:var(--color-forest); }
+.photo-credit { font-size:9px; line-height:1.5; color:var(--color-ink-soft); margin:7px 0 12px; }
+.photo-credit a { color:inherit; }
+.tour-infographic { padding-bottom:20px; }
+.infographic-heading .section-title { font-size:29px; line-height:1.14; }
+.infographic-heading .lede { margin-bottom:20px; }
+.detail-photo { width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:12px; display:block; }
+.detail-facts { display:flex; flex-wrap:wrap; gap:8px; margin:15px 0; }
+.detail-facts span { border:1px solid var(--color-line); border-radius:30px; font-size:11px; padding:7px 11px; color:var(--color-forest); }
+.detail-prices { display:grid; grid-template-columns:repeat(auto-fit,minmax(125px,1fr)); gap:10px; margin:18px 0 27px; }
+.detail-price { background:var(--color-forest); color:var(--color-paper); padding:18px; border-radius:12px; }
+.detail-price strong { display:block; font-family:var(--font-display); font-size:32px; line-height:1.1; margin-bottom:8px; }
+.detail-price span { font-size:12px; display:block; line-height:1.5; color:#e5dfcb; }
+.program-title { font-family:var(--font-display); font-size:22px; margin:0 0 20px; }
+.route-section { display:grid; grid-template-columns:34px minmax(0,1fr); gap:12px; margin-bottom:22px; }
+.route-number { width:32px; height:32px; border:1px solid var(--color-gold); border-radius:50%; display:grid; place-items:center; font:12px var(--font-mono); color:var(--color-forest); }
+.route-heading { font-family:var(--font-display); font-size:19px; margin:3px 0 12px; font-weight:600; }
+.route-stops { padding-left:18px; margin:0; font-size:13px; line-height:1.65; }
+.route-stops li { padding-left:3px; margin-bottom:8px; }
+.route-stops li::marker { color:#8c7138; font-weight:600; }
+.included-panel, .extras-panel { padding:19px; margin:15px 0; border-radius:12px; }
+.included-panel { background:#e7ecdf; }
+.extras-panel { border:1px solid var(--color-line); background:#f0eadb; }
+.included-panel h2, .extras-panel h2 { font-size:17px; font-family:var(--font-display); margin:0 0 12px; }
+.included-panel ul { list-style:none; padding:0; margin:0; display:grid; gap:8px; }
+.included-panel li { font-size:13px; line-height:1.5; padding-left:19px; position:relative; }
+.included-panel li::before { content:'✓'; position:absolute; left:0; color:var(--color-forest); }
+.extras-panel p { font-size:13px; line-height:1.65; margin:0; }
+.detail-book { margin-top:24px; padding:15px; font-size:15px; }
+.booking-caption { font-size:11px; text-align:center; color:var(--color-ink-soft); line-height:1.5; }
+.detail-contact { display:block; text-align:center; color:var(--color-forest); font-size:12px; margin:18px 0 0; }
+.booking-request { border:1px solid var(--color-line); padding:22px; border-radius:12px; background:white; margin:18px 0; }
+.booking-request h2 { font:22px var(--font-display); color:var(--color-forest); margin:10px 0; }
+.booking-request p { font-size:14px; line-height:1.65; }
+.booking-request .request-price { font:23px var(--font-display); }
+.request-price small { font:12px var(--font-body); }
+.booking-request a { text-decoration:none; text-align:center; white-space:normal; }
+@media(max-width:420px) {
+  .tour-card-footer { flex-wrap:wrap; }
+  .tour-card-actions { width:100%; }
+  .tour-card-actions .btn { flex:1; padding:10px 8px; }
+  .content { padding-left:16px; padding-right:16px; }
+  .infographic-heading .section-title { font-size:26px; }
+}
