@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Бэкенд Sunny Tours Mini App: приём заявок на бронирование экскурсий
+Бэкенд Sri Lanka Tours Mini App: приём заявок на бронирование экскурсий
 + трекинг визитов (страна/источник) + отдача статичного фронтенда.
 
 Запуск:
@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 cfg = load_config()
 init_db(cfg.db_path)
 
-app = FastAPI(title="Sunny Tours Mini App API")
+app = FastAPI(title="Sri Lanka Tours Mini App API")
 
 
 class BookRequest(BaseModel):
@@ -174,5 +174,23 @@ async def book_tour(payload: BookRequest):
     return {"ok": True}
 
 
+from inquiries import register_inquiries
+register_inquiries(app, cfg, _extract_tg_user)
+
 # Статичный фронтенд отдаём последним, чтобы не перекрывать /api/*
-app.mount("/", StaticFiles(directory=".", html=True), name="frontend")
+# Only public assets may be served; databases and Python sources remain private.
+from pathlib import Path
+from fastapi.responses import FileResponse
+PUBLIC_ROOT = Path(__file__).resolve().parent
+app.mount("/images", StaticFiles(directory=str(PUBLIC_ROOT / "images")), name="images")
+
+@app.get("/")
+async def frontend_index():
+    return FileResponse(PUBLIC_ROOT / "index.html")
+
+@app.get("/{filename}")
+async def frontend_asset(filename: str):
+    if filename not in {"index.html", "app.js", "style.css"}:
+        raise HTTPException(status_code=404)
+    return FileResponse(PUBLIC_ROOT / filename)
+

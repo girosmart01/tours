@@ -415,6 +415,9 @@ const TOURS = [
   }
 ];
 
+function managerLink(tour) {
+  return `https://t.me/${MANAGER_USERNAME}?text=${encodeURIComponent(tour ? `Здравствуйте! Помогите понять, подойдёт ли мне экскурсия «${tour.title}».` : 'Здравствуйте! Помогите подобрать экскурсию по Шри-Ланке.')}`;
+}
 let selectedTourId = null;
 
 function findTour(id) {
@@ -450,9 +453,10 @@ function renderTours() {
           </div>
           <div class="tour-card-actions">
             <button class="btn btn-secondary" data-detail="${tour.id}">Подробнее</button>
-            <button class="btn btn-primary" data-book="${tour.id}">Забронировать</button>
+            <button class="btn btn-primary" data-book="${tour.id}">Уточнить места</button>
           </div>
         </div>
+        <a class="detail-contact" href="${managerLink(tour)}" target="_blank" rel="noopener noreferrer">Помогите выбрать →</a>
       </div>
     </div>
   `).join('');
@@ -477,6 +481,10 @@ function renderTours() {
       </div>
     </div>
 
+    <div class="notice"><strong>Впервые на острове и не знаете, что выбрать?</strong>
+      <p>Расскажите, где отдыхаете и что любите. Поможем сравнить маршруты.</p>
+      <a class="btn btn-secondary" href="${managerLink()}" target="_blank" rel="noopener noreferrer">Помогите подобрать экскурсию</a>
+    </div>
     ${cards}
 
     <div class="upsell-note">
@@ -537,9 +545,9 @@ function renderTourDetail(id) {
       <section class="included-panel"><h2>Включено в стоимость</h2><ul>${tour.includes.map(x=>`<li>${x}</li>`).join('')}</ul></section>
       ${tour.extra ? `<section class="extras-panel"><h2>Оплачивается отдельно</h2><p>${tour.extra}</p></section>` : ''}
       ${tour.note ? `<div class="notice">${tour.note}</div>` : ''}
-      <button class="btn btn-primary btn-block detail-book" id="detail-book-btn">Забронировать</button>
-      <p class="booking-caption">Дату и детали поездки подтвердит менеджер</p>
-      <a href="https://t.me/${MANAGER_USERNAME}" target="_blank" rel="noopener noreferrer" class="detail-contact">Связаться в Telegram · @${MANAGER_USERNAME}</a>
+      <button class="btn btn-primary btn-block detail-book" id="detail-book-btn">Уточнить места</button>
+      <p class="booking-caption">Это запрос менеджеру, не оплата и не подтверждённая бронь.</p>
+      <a href="${managerLink(tour)}" target="_blank" rel="noopener noreferrer" class="detail-contact">Помогите выбрать · @${MANAGER_USERNAME}</a>
     </article>`;
   document.getElementById('back-to-tours').addEventListener('click', () => {renderTours();window.scrollTo(0,0);});
   document.getElementById('detail-book-btn').addEventListener('click', () => {selectedTourId=tour.id;switchTab('booking');});
@@ -615,9 +623,10 @@ function renderReviews() {
     <p class="lede">Вдохновение для вашего путешествия по Шри-Ланке.</p>
     <figure class="reviews-collage">
       <img src="images/reviews-collage.png" width="941" height="1672"
-        alt="Коллаж путешествия по Шри-Ланке: горы, Девятиарочный мост, чайные плантации, водопады и океан"
+        alt="Коллаж путешествия по Шри-Ланке: горы, мост, чайные плантации, водопады и океан"
         decoding="async" />
     </figure>
+    <a class="btn btn-primary" href="${managerLink()}" target="_blank" rel="noopener noreferrer">Задать вопрос</a>
   `;
 }
 
@@ -649,67 +658,35 @@ function sriLankaToday() {
 
 function renderBooking() {
   const initialTourId = selectedTourId || TOURS[0].id;
-  const options = TOURS.map(t => `<option value="${t.id}" ${t.id === initialTourId ? 'selected' : ''}>${t.title}</option>`).join('');
-
   content.innerHTML = `
-    <h1 class="section-title">Бронирование</h1>
-    <p class="lede">Выберите тур и желаемую дату, заполните данные. Мы свяжемся с Вами для подтверждения поездки.</p>
-
+    <h1 class="section-title">Уточнить места и стоимость</h1>
+    <p class="lede">Сначала согласуем маршрут, дату и итоговую стоимость. Отправка запроса не подтверждает бронь и не требует оплаты.</p>
     <form id="booking-form">
-      <div class="form-group">
-        <label class="form-label" for="f-tour">Тур</label>
-        <select class="form-select" id="f-tour">${options}</select>
-      </div>
-
-      <div id="booking-fields">
-      <div class="form-group">
-        <label class="form-label" for="f-date">Желаемая дата экскурсии</label>
-        <input class="form-input" type="date" id="f-date" required aria-describedby="date-empty-note" />
-        <div id="date-empty-note"></div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="f-name">Имя</label>
-        <input class="form-input" type="text" id="f-name" placeholder="Как к Вам обращаться" required />
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="f-phone">Телефон / WhatsApp</label>
-        <input class="form-input" type="tel" id="f-phone" placeholder="+7 ..." required />
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="f-country">Страна</label>
-        <input class="form-input" type="text" id="f-country" placeholder="Например, Казахстан" required />
-      </div>
-
+      <div class="form-group"><label class="form-label" for="f-tour">Экскурсия</label>
+        <select class="form-select" id="f-tour">${TOURS.map(t=>`<option value="${t.id}" ${t.id===initialTourId?'selected':''}>${t.title}</option>`).join('')}</select></div>
+      <div class="form-group"><label class="form-label" for="f-date">Желаемая дата</label>
+        <input class="form-input" type="date" id="f-date" required />
+        <label class="flex-date"><input type="checkbox" id="f-flexible" /> Пока не определился с датой</label>
+        <div id="date-empty-note"></div></div>
       <div class="form-row">
-        <div class="form-group">
-          <label class="form-label" for="f-hotel">Отель</label>
-          <input class="form-input" type="text" id="f-hotel" placeholder="Название отеля" />
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="f-room">№ комнаты</label>
-          <input class="form-input" type="text" id="f-room" placeholder="Необязательно" />
-        </div>
+        <div class="form-group"><label class="form-label" for="f-adults">Взрослые</label><input class="form-input" type="number" id="f-adults" min="1" max="50" value="1" required /></div>
+        <div class="form-group"><label class="form-label" for="f-children">Дети</label><input class="form-input" type="number" id="f-children" min="0" max="50" value="0" required /></div>
       </div>
-
-      </div>
-
-      <div id="booking-status"></div>
-
-      <button type="submit" class="btn btn-primary btn-block" id="booking-submit-btn" style="padding:13px;font-size:14px;margin-top:6px;">Отправить заявку</button>
+      <div class="form-group"><label class="form-label" for="f-resort">Откуда вас забрать?</label><input class="form-input" id="f-resort" maxlength="200" placeholder="Курорт или «Пока не знаю»" required /></div>
+      <div class="form-group"><label class="form-label" for="f-phone">Контакт для ответа</label><input class="form-input" id="f-phone" maxlength="100" placeholder="@telegram или телефон / WhatsApp" /><p id="contact-note" class="booking-caption"></p></div>
+      <div id="booking-status" role="status" aria-live="polite"></div>
+      <button type="submit" class="btn btn-primary btn-block" id="booking-submit-btn">Отправить запрос</button>
     </form>
-
-    <div class="upsell-note">
-      <p>Не готовы бронировать? Обсудим индивидуальный тур и просчитаем цену.</p>
-      <a href="https://t.me/${MANAGER_USERNAME}" target="_blank" class="upsell-link">Написать менеджеру → @${MANAGER_USERNAME}</a>
-    </div>
-  `;
-
+    <div class="upsell-note"><p>Удобнее обсудить лично?</p><a class="upsell-link" href="${managerLink()}" target="_blank" rel="noopener noreferrer">Помогите выбрать → @${MANAGER_USERNAME}</a></div>`;
+  const username = tg?.initDataUnsafe?.user?.username;
+  document.getElementById('f-phone').required = !username;
+  document.getElementById('contact-note').textContent = username ? `Ответим в Telegram @${username}. Другой контакт можно оставить по желанию.` : 'Укажите контакт, по которому менеджер сможет вам ответить.';
   populateDateOptions(initialTourId);
+  document.getElementById('f-flexible').addEventListener('change', e=>{
+    const date = document.getElementById('f-date');date.disabled=e.target.checked;date.required=!e.target.checked;validateBookingDate();
+  });
   document.getElementById('f-date').addEventListener('input', validateBookingDate);
-  document.getElementById('f-tour').addEventListener('change', (e) => populateDateOptions(e.target.value));
+  document.getElementById('f-tour').addEventListener('change', e=>populateDateOptions(e.target.value));
   document.getElementById('booking-form').addEventListener('submit', handleBookingSubmit);
 }
 
@@ -730,12 +707,16 @@ function populateDateOptions(tourId) {
     note.textContent = 'Укажите удобную дату. Заявка не гарантирует наличие мест — поездку подтвердит менеджер.';
   }
   if (input.value && (input.value < input.min || (tourId === 'rafting' && new Date(`${input.value}T12:00:00Z`).getUTCDay() !== 5))) input.value = '';
+  const children = document.getElementById('f-children');
+  children.disabled = tourId === 'rafting';
+  if (children.disabled) children.value = '0';
   validateBookingDate();
 }
 
 function validateBookingDate() {
   const input = document.getElementById('f-date');
   input.setCustomValidity('');
+  if (input.disabled) return true;
   if (input.value && input.value < sriLankaToday()) input.setCustomValidity('Выберите сегодняшнюю или будущую дату.');
   else if (input.value && document.getElementById('f-tour').value === 'rafting' && new Date(`${input.value}T12:00:00Z`).getUTCDay() !== 5) input.setCustomValidity('Для рафтинга выберите пятницу.');
   return input.validity.valid;
@@ -748,7 +729,7 @@ async function handleBookingSubmit(e) {
   const submitBtn = e.target.querySelector('button[type="submit"]');
 
   if (!tg?.initData) {
-    statusEl.innerHTML = '<p class="status-msg error">Не удалось подтвердить пользователя Telegram. Откройте приложение через бота.</p>';
+    statusEl.innerHTML = '<p class="status-msg error">Не удалось подтвердить пользователя Telegram. Можно написать менеджеру по ссылке под формой.</p>';
     return;
   }
 
@@ -759,12 +740,11 @@ async function handleBookingSubmit(e) {
     init_data: tg.initData,
     tour_id: tourId,
     tour_title: tour ? tour.title : tourId,
-    tour_date: document.getElementById('f-date').value,
-    name: document.getElementById('f-name').value.trim(),
-    phone: document.getElementById('f-phone').value.trim(),
-    country: document.getElementById('f-country').value.trim(),
-    hotel: document.getElementById('f-hotel').value.trim(),
-    room: document.getElementById('f-room').value.trim(),
+    tour_date: document.getElementById('f-flexible').checked ? '' : document.getElementById('f-date').value,
+    adults: Number(document.getElementById('f-adults').value),
+    children: Number(document.getElementById('f-children').value),
+    resort: document.getElementById('f-resort').value.trim(),
+    contact: document.getElementById('f-phone').value.trim(),
     source: tg.initDataUnsafe?.start_param || 'direct',
   };
 
@@ -773,7 +753,7 @@ async function handleBookingSubmit(e) {
   statusEl.innerHTML = '<p class="status-msg">Отправка…</p>';
 
   try {
-    const res = await fetch('/api/book', {
+    const res = await fetch('/api/inquiry', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -785,10 +765,15 @@ async function handleBookingSubmit(e) {
       submitBtn.disabled = false;
       return;
     }
+    if (data.notification_sent === false) {
+      statusEl.textContent = 'Запрос сохранён, но уведомление менеджеру не доставлено. Напишите ему по ссылке под формой; повторно отправлять запрос не нужно.';
+      statusEl.className = 'status-msg error';
+      return;
+    }
     tg?.HapticFeedback?.notificationOccurred('success');
     content.innerHTML = `
-      <h1 class="section-title">Заявка отправлена 🎉</h1>
-      <p class="lede">Спасибо! Мы свяжемся с Вами в Telegram для подтверждения даты и деталей.</p>
+      <h1 class="section-title">Запрос отправлен</h1>
+      <p class="lede">Менеджер ответит по указанному контакту или в Telegram. Сначала согласуем стоимость и детали; бронь ещё не подтверждена.</p>
       <button class="btn btn-primary" id="back-home-btn">К турам</button>
     `;
     document.getElementById('back-home-btn').addEventListener('click', () => { selectedTourId = null; switchTab('tours'); });

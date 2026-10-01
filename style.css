@@ -636,3 +636,6 @@ html, body {
 /* Travel collage: retain full portrait without cropping on mobile. */
 .reviews-collage { margin: 20px 0 0; }
 .reviews-collage img { display: block; width: 100%; height: auto; border-radius: 16px; }
+
+.flex-date { display:flex; gap:10px; align-items:center; margin:12px 0; }
+.tour-card-actions { flex-wrap:wrap; }
