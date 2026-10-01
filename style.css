@@ -632,3 +632,7 @@ html, body {
 .photo-sources { margin-top:24px; padding-top:16px; border-top:1px solid var(--color-line); color:var(--color-ink-soft); font-size:12px; }
 .photo-sources summary { cursor:pointer; }
 .photo-sources p { line-height:1.6; }
+
+/* Travel collage: retain full portrait without cropping on mobile. */
+.reviews-collage { margin: 20px 0 0; }
+.reviews-collage img { display: block; width: 100%; height: auto; border-radius: 16px; }

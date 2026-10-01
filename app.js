@@ -612,11 +612,12 @@ function renderFaq() {
 function renderReviews() {
   content.innerHTML = `
     <h1 class="section-title">Отзывы</h1>
-    <p class="lede">Что говорят те, кто уже был на экскурсиях.</p>
-    <div class="review-placeholder">
-      <svg viewBox="0 0 24 24" width="30" height="30"><path fill="currentColor" d="M4 4h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H8l-4 4V6a2 2 0 0 1 0-2Z"/></svg>
-      <p>Отзывы наших туристов скоро появятся здесь — с фото прямо с маршрута.</p>
-    </div>
+    <p class="lede">Вдохновение для вашего путешествия по Шри-Ланке.</p>
+    <figure class="reviews-collage">
+      <img src="images/reviews-collage.png" width="941" height="1672"
+        alt="Коллаж путешествия по Шри-Ланке: горы, Девятиарочный мост, чайные плантации, водопады и океан"
+        decoding="async" />
+    </figure>
   `;
 }
 
