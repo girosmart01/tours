@@ -656,6 +656,8 @@ function sriLankaToday() {
   return `${part('year')}-${part('month')}-${part('day')}`;
 }
 
+const TOUR_SCHEDULE = {"weekly": {"rafting": 5, "golden_ring": 1}, "dates": {"treasure": ["2026-10-01", "2026-10-04", "2026-10-07", "2026-10-10", "2026-10-13", "2026-10-16", "2026-10-19", "2026-10-22", "2026-10-25", "2026-10-28", "2026-10-31"], "safari": ["2026-10-01", "2026-10-03", "2026-10-06", "2026-10-09", "2026-10-12", "2026-10-15", "2026-10-18", "2026-10-21", "2026-10-24", "2026-10-27", "2026-10-30"], "ella": ["2026-10-02", "2026-10-05", "2026-10-08", "2026-10-11", "2026-10-14", "2026-10-17", "2026-10-20", "2026-10-23", "2026-10-26", "2026-10-29"], "ella_safari": ["2026-10-04", "2026-10-07", "2026-10-10", "2026-10-13", "2026-10-16", "2026-10-19", "2026-10-22", "2026-10-25", "2026-10-28", "2026-10-31"]}};
+let calendarMonth = "";
 function renderBooking() {
   const initialTourId = selectedTourId || TOURS[0].id;
   content.innerHTML = `
@@ -665,7 +667,9 @@ function renderBooking() {
       <div class="form-group"><label class="form-label" for="f-tour">Экскурсия</label>
         <select class="form-select" id="f-tour">${TOURS.map(t=>`<option value="${t.id}" ${t.id===initialTourId?'selected':''}>${t.title}</option>`).join('')}</select></div>
       <div class="form-group"><label class="form-label" for="f-date">Желаемая дата</label>
-        <input class="form-input" type="date" id="f-date" required />
+        <input type="hidden" id="f-date" />
+        <div id="tour-calendar" aria-label="Календарь выездов"></div>
+        <p id="selected-date-label" class="booking-caption" aria-live="polite">Выберите дату выезда</p>
         <label class="flex-date"><input type="checkbox" id="f-flexible" /> Пока не определился с датой</label>
         <div id="date-empty-note"></div></div>
       <div class="form-row">
@@ -683,43 +687,74 @@ function renderBooking() {
   document.getElementById('contact-note').textContent = username ? `Ответим в Telegram @${username}. Другой контакт можно оставить по желанию.` : 'Укажите контакт, по которому менеджер сможет вам ответить.';
   populateDateOptions(initialTourId);
   document.getElementById('f-flexible').addEventListener('change', e=>{
-    const date = document.getElementById('f-date');date.disabled=e.target.checked;date.required=!e.target.checked;validateBookingDate();
+    const date = document.getElementById('f-date');date.disabled=e.target.checked;renderTourCalendar();
   });
   document.getElementById('f-date').addEventListener('input', validateBookingDate);
   document.getElementById('f-tour').addEventListener('change', e=>populateDateOptions(e.target.value));
   document.getElementById('booking-form').addEventListener('submit', handleBookingSubmit);
 }
 
+function isTourDateAllowed(tourId, iso) {
+  if (iso < sriLankaToday()) return false;
+  const day = new Date(`${iso}T12:00:00Z`);
+  if (!Number.isFinite(day.getTime()) || day.toISOString().slice(0,10) !== iso) return false;
+  if (Object.hasOwn(TOUR_SCHEDULE.weekly, tourId)) return day.getUTCDay() === TOUR_SCHEDULE.weekly[tourId];
+  if (TOUR_SCHEDULE.dates[tourId]) return TOUR_SCHEDULE.dates[tourId].includes(iso);
+  return true;
+}
+
 function populateDateOptions(tourId) {
   selectedTourId = tourId;
   const input = document.getElementById('f-date');
-  const note = document.getElementById('date-empty-note');
-  const today = sriLankaToday();
-  input.min = today;
-  input.step = '1';
-  if (tourId === 'rafting') {
-    const next = new Date(`${today}T12:00:00Z`);
-    next.setUTCDate(next.getUTCDate() + (5 - next.getUTCDay() + 7) % 7);
-    input.min = next.toISOString().slice(0,10);
-    input.step = '7';
-    note.textContent = 'Рафтинг проходит по пятницам, участие с 18 лет. Дату и наличие мест подтвердит менеджер.';
-  } else {
-    note.textContent = 'Укажите удобную дату. Заявка не гарантирует наличие мест — поездку подтвердит менеджер.';
-  }
-  if (input.value && (input.value < input.min || (tourId === 'rafting' && new Date(`${input.value}T12:00:00Z`).getUTCDay() !== 5))) input.value = '';
+  if (input.value && !isTourDateAllowed(tourId, input.value)) input.value = '';
+  calendarMonth = (input.value || sriLankaToday()).slice(0,7);
   const children = document.getElementById('f-children');
   children.disabled = tourId === 'rafting';
   if (children.disabled) children.value = '0';
-  validateBookingDate();
+  const notes = {
+    rafting: 'Выезды каждую пятницу, участие с 18 лет.',
+    golden_ring: 'Выезды каждый понедельник. Продолжительность — 3 дня.',
+  };
+  document.getElementById('date-empty-note').textContent = (notes[tourId] || (TOUR_SCHEDULE.dates[tourId] ? 'Опубликовано расписание на октябрь 2026. Другие даты пока недоступны.' : 'Расписание пока не опубликовано. Желаемую дату согласует менеджер.')) + ' Наличие мест подтвердит менеджер.';
+  renderTourCalendar();
+}
+
+function renderTourCalendar() {
+  const tourId = document.getElementById('f-tour').value;
+  const input = document.getElementById('f-date');
+  const flexible = document.getElementById('f-flexible').checked;
+  const [year,month] = calendarMonth.split('-').map(Number);
+  const first = new Date(Date.UTC(year,month-1,1));
+  const count = new Date(Date.UTC(year,month,0)).getUTCDate();
+  const offset = (first.getUTCDay()+6)%7;
+  const title = new Intl.DateTimeFormat('ru-RU',{month:'long',year:'numeric',timeZone:'UTC'}).format(first);
+  let available = 0;
+  const cells = Array.from({length:count},(_,i)=>{
+    const iso = `${calendarMonth}-${String(i+1).padStart(2,'0')}`;
+    const allowed = isTourDateAllowed(tourId,iso);
+    if (allowed) available++;
+    return `<button type="button" class="calendar-day" data-date="${iso}" aria-label="${formatDateLabelForTour(iso,findTour(tourId))}" aria-pressed="${input.value===iso}" ${!allowed||flexible?'disabled':''}>${i+1}</button>`;
+  }).join('');
+  document.getElementById('tour-calendar').innerHTML = `
+    <div class="calendar-header"><button type="button" id="calendar-prev" aria-label="Предыдущий месяц" ${calendarMonth<=sriLankaToday().slice(0,7)||flexible?'disabled':''}>‹</button><strong aria-live="polite">${title}</strong><button type="button" id="calendar-next" aria-label="Следующий месяц" ${flexible?'disabled':''}>›</button></div>
+    <div class="calendar-grid">${['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].map(d=>`<span class="calendar-weekday">${d}</span>`).join('')}${'<span></span>'.repeat(offset)}${cells}</div>
+    ${!available?'<p class="booking-caption">В этом месяце доступных дат нет.</p>':''}`;
+  const navigate = delta => {calendarMonth = new Date(Date.UTC(year,month-1+delta,1)).toISOString().slice(0,7);renderTourCalendar();};
+  document.getElementById('calendar-prev').onclick=()=>navigate(-1);
+  document.getElementById('calendar-next').onclick=()=>navigate(1);
+  document.querySelectorAll('[data-date]').forEach(button=>button.onclick=()=>{input.value=button.dataset.date;renderTourCalendar();document.getElementById('booking-status').textContent='';});
+  document.getElementById('selected-date-label').textContent = flexible ? 'Дату обсудим с менеджером' : input.value ? `Выезд: ${formatDateLabelForTour(input.value,findTour(tourId))}` : 'Выберите доступную дату выезда';
 }
 
 function validateBookingDate() {
-  const input = document.getElementById('f-date');
-  input.setCustomValidity('');
-  if (input.disabled) return true;
-  if (input.value && input.value < sriLankaToday()) input.setCustomValidity('Выберите сегодняшнюю или будущую дату.');
-  else if (input.value && document.getElementById('f-tour').value === 'rafting' && new Date(`${input.value}T12:00:00Z`).getUTCDay() !== 5) input.setCustomValidity('Для рафтинга выберите пятницу.');
-  return input.validity.valid;
+  if (document.getElementById('f-flexible').checked) return true;
+  const valid = isTourDateAllowed(document.getElementById('f-tour').value,document.getElementById('f-date').value);
+  if (!valid) {
+    const status = document.getElementById('booking-status');
+    status.className='status-msg error';
+    status.textContent='Выберите доступную дату в календаре или отметьте «Пока не определился с датой».';
+  }
+  return valid;
 }
 
 async function handleBookingSubmit(e) {

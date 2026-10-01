@@ -23,6 +23,7 @@ from database import (
     Booking, Visit, export_bookings_csv, init_db, log_visit, save_booking, visit_stats,
 )
 from telegram_auth import validate_init_data
+from inquiries import scheduled_date_allowed
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -127,6 +128,9 @@ async def book_tour(payload: BookRequest):
         tour_date = date.fromisoformat(payload.tour_date)
     except ValueError:
         raise HTTPException(status_code=400, detail="Неверный формат даты")
+
+    if not scheduled_date_allowed(payload.tour_id, tour_date):
+        raise HTTPException(status_code=400, detail="Эта дата недоступна для выбранной экскурсии")
 
     if tour_date < date.today():
         raise HTTPException(status_code=400, detail="Дата уже прошла, выберите другую")

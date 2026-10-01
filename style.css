@@ -639,3 +639,13 @@ html, body {
 
 .flex-date { display:flex; gap:10px; align-items:center; margin:12px 0; }
 .tour-card-actions { flex-wrap:wrap; }
+
+#tour-calendar { border:1px solid #d8ded6; border-radius:14px; padding:10px; }
+.calendar-header { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:10px; }
+.calendar-header button { width:40px; height:40px; border:0; border-radius:8px; background:#eef1e9; font-size:24px; color:#1f3524; }
+.calendar-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:4px; }
+.calendar-weekday { text-align:center; font-size:12px; padding:6px 0; }
+.calendar-day { min-height:38px; border:0; border-radius:8px; background:#e3eadb; color:#1f3524; font:inherit; cursor:pointer; }
+.calendar-day:disabled { color:#999; background:#f3f3ef; cursor:default; }
+.calendar-day[aria-pressed="true"] { background:#1f3524; color:white; }
+.calendar-day:focus-visible { outline:2px solid #b8923f; outline-offset:1px; }

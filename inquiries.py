@@ -4,6 +4,17 @@ import logging
 import sqlite3
 from datetime import datetime, date
 from zoneinfo import ZoneInfo
+from pathlib import Path
+
+SCHEDULE = json.loads(Path(__file__).with_name("schedule.json").read_text())
+
+def scheduled_date_allowed(tour_id, day):
+    if tour_id in SCHEDULE["weekly"]:
+        return (day.weekday() + 1) % 7 == SCHEDULE["weekly"][tour_id]
+    if tour_id in SCHEDULE["dates"]:
+        return day.isoformat() in SCHEDULE["dates"][tour_id]
+    return True
+
 
 import httpx
 from fastapi import HTTPException
@@ -44,8 +55,8 @@ def register_inquiries(app, cfg, authenticate):
                 raise HTTPException(400, 'Неверный формат даты')
             if day < datetime.now(ZoneInfo('Asia/Colombo')).date():
                 raise HTTPException(400, 'Дата уже прошла')
-            if payload.tour_id == 'rafting' and day.weekday() != 4:
-                raise HTTPException(400, 'Рафтинг проводится по пятницам')
+            if not scheduled_date_allowed(payload.tour_id, day):
+                raise HTTPException(400, 'Эта дата недоступна для выбранной экскурсии')
         if payload.tour_id == 'rafting' and payload.children:
             raise HTTPException(400, 'Рафтинг доступен только с 18 лет')
         if not payload.resort.strip():
