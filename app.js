@@ -29,7 +29,7 @@ const TOURS = [
   {
     "id": "golden_ring",
     "icon": "fortress",
-    "image": "images/treasure.jpg",
+    "image": "images/golden-ring-pinnawala.png",
     "title": "Золотое кольцо Шри-Ланки",
     "subtitle": "Три дня среди древних крепостей, чайных холмов и горных пейзажей — от Пинавеллы до Эллы.",
     "duration": "3 дня / 2 ночи",
