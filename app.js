@@ -162,7 +162,7 @@ const TOURS = [
   {
     "id": "rafting",
     "icon": "raft",
-    "image": "images/rafting.jpg",
+    "image": "images/rafting-real.jpg",
     "title": "Рафтинг по горной реке",
     "subtitle": "Пороги, тропическая зелень и полтора–два часа сплава с инструктором. Выезды по пятницам.",
     "duration": "1 день",
@@ -203,10 +203,10 @@ const TOURS = [
     "featured": true,
     "badge": "По пятницам · 18+",
     "photoCredit": {
-      "author": "Rehman Abubakr",
-      "source": "https://commons.wikimedia.org/wiki/File:KitulgalaRafting-March2013-01.JPG",
-      "license": "CC BY-SA 4.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+      "author": "Oye Yogi",
+      "source": "https://www.pexels.com/photo/exciting-river-rafting-adventure-on-rapids-31798401/",
+      "license": "Pexels License",
+      "licenseUrl": "https://www.pexels.com/license/"
     }
   },
   {
